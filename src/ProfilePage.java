@@ -45,7 +45,7 @@ public class ProfilePage extends BackgroundPanel2 {
         iconsPanel.setLayout(layout);
 
 
-        ImageIcon backIcon = new ImageIcon("logos/menu-logo.png");
+        ImageIcon backIcon = new ImageIcon("logos/go-back-logo.png");
         JButton backBtn = new JButton(backIcon);
         backBtn.setContentAreaFilled(false);
         backBtn.setBorderPainted(false);
@@ -54,18 +54,7 @@ public class ProfilePage extends BackgroundPanel2 {
         backBtn.setPreferredSize(new Dimension(40, 40));
         backBtn.addActionListener(e -> frame.showPage("main"));
 
-        ImageIcon searchIcon = new ImageIcon("logos/search-icon.png");
-        Image scaledImage = searchIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        ImageIcon scaledSearchIcon = new ImageIcon(scaledImage);
-        JButton searchButton = new JButton(scaledSearchIcon);
-        searchButton.setPreferredSize(new Dimension(40, 40));
-        searchButton.setContentAreaFilled(false);
-        searchButton.setBorderPainted(false);
-        searchButton.setFocusPainted(false);
-        searchButton.setOpaque(false);
-
-       iconsPanel.add(searchButton);
-       iconsPanel.add(backBtn);
+       iconsPanel.add(backBtn, BorderLayout.EAST);
        
        topBar.add(iconsPanel, BorderLayout.EAST);
 
@@ -84,7 +73,7 @@ public class ProfilePage extends BackgroundPanel2 {
         profilePic = resizeIcon(profilePic, 150, 150);
         
         JLabel picLabel = new JLabel(profilePic);
-        JLabel usernameLabel = new JLabel("User1234");
+        JLabel usernameLabel = new JLabel("Guest");
         usernameLabel.setForeground(Color.WHITE);
         usernameLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
 
@@ -95,6 +84,15 @@ public class ProfilePage extends BackgroundPanel2 {
         profilePanel.add(usernameLabel);
         sidebar.add(profilePanel, 0); // Add to top
         sidebar.add(Box.createVerticalStrut(10));
+
+        //panels 
+            JPanel contentPanel = new JPanel(new CardLayout());
+            JPanel editProfilePanel = createEditProfilePanel();
+            editProfilePanel.setVisible(false);
+            JPanel favoritesPanel = createFavoritePanel();
+            contentPanel.add(editProfilePanel);
+            contentPanel.add(favoritesPanel);
+            this.add(contentPanel);
 
        String[] menuItems = {"<html>Favorites</html>", "<html>Sell Books</html>", "<html>Show My Ads</html>", "<html>Edit Profile</html>"};
 
@@ -109,7 +107,7 @@ public class ProfilePage extends BackgroundPanel2 {
             button.setFont(new Font("SansSerif", Font.PLAIN, 18));
             buttons.add(button);
 
-            JPanel editProfilePanel = createEditProfilePanel();
+            
             button.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -123,20 +121,21 @@ public class ProfilePage extends BackgroundPanel2 {
                  @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     if (button.getText().equals("<html><u>Favorites</u></html>")){
-                         editProfilePanel.setVisible(false);
-                        createFavoritePanel();
+                        editProfilePanel.setVisible(false);
+                        favoritesPanel.setVisible(true);
                     }
                     else if ( button.getText().equals("<html><u>Sell Books</u></html>")){
                          editProfilePanel.setVisible(false);
-                        // sellBooksPanel();
+                         //sellBooksPanel();
                     }
                     else if ( button.getText().equals("<html><u>Show My Ads</u></html>")){
                          editProfilePanel.setVisible(false);
                         // showMyAdsPanel();
                     }
                     else if(button.getText().equals("<html><u>Edit Profile</u></html>")){
-                        
+                        System.out.println("Clicked edit");
                          editProfilePanel.setVisible(true);
+                         favoritesPanel.setVisible(false);
                     }
                 }
             });
@@ -197,9 +196,29 @@ public class ProfilePage extends BackgroundPanel2 {
 
     }
 
-    public void createFavoritePanel(){
+    public JPanel createFavoritePanel(){
+        JPanel mainBox = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Color.BLACK);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 60, 60);
+                g2.dispose();
+            }
+        };
+        mainBox.setOpaque(false);
+        mainBox.setPreferredSize(new Dimension(200, 400));
+        mainBox.setLayout(new BorderLayout());
+        mainBox.setVisible(false);
         
-        System.out.println("Im clicked");
+        
+        //implement the current user and get its favorite tutors for now i will do a place holder array
+        ArrayList<SecondHandItem> items;
+
+        mainBox.setVisible(false);
+        return mainBox;
 
     }
     
@@ -307,7 +326,7 @@ public class ProfilePage extends BackgroundPanel2 {
         mainBox.add(nameField);
         mainBox.add(passwordAndOk);
 
-        this.add(mainBox, BorderLayout.CENTER);
+        mainBox.setVisible(false);
         
         return mainBox;
         
