@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 public class User {
     private String username;
     private String password;
     private String email;
     private ArrayList<SecondHandItem> favorites;
     private boolean isTutor;
+    ImageIcon profilePic = new ImageIcon("logos/placeholder_profile_photo.png"); // default photo
 
     /**
      * Constructor for a regular user (not a tutor).
@@ -59,6 +62,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setProfilePhoto(ImageIcon photo){
+        this.profilePic = photo;
     }
 
     public ArrayList<SecondHandItem> getFavorites() {
